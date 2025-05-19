@@ -50,6 +50,7 @@ const HotCollections = () => {
               responsive={{
                 0: { items: 1 },
                 566: { items: 2 },
+                768: { items: 3 },
                 991: { items: 4 },
               }}
             >
