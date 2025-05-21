@@ -20,7 +20,7 @@ const HotCollections = () => {
         setTimeout(() => {
           setCollections(response.data);
           setLoading(false);
-        }, 1000);
+        }, 2000);
       } catch (error) {
         console.error("Error fetching data:", error);
         setLoading(false);
@@ -94,3 +94,4 @@ const HotCollections = () => {
 };
 
 export default HotCollections;
+
