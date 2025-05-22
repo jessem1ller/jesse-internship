@@ -21,7 +21,7 @@ const HotCollections = () => {
         setTimeout(() => {
           setCollections(response.data);
           setLoading(false);
-        }, 1000);
+        }, 2000);
       } catch (error) {
         console.error("Error fetching data:", error);
         setLoading(false);
@@ -42,7 +42,11 @@ const HotCollections = () => {
             </div>
           </div>
           {loading ? (
-            <Skeleton width="100%" height="200px" borderRadius="8px" />
+            Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} className="col-lg-3 col-md-6 col-sm-12">
+                 <Skeleton width="100%" height="350px" borderRadius="8px" />
+              </div>
+            ))
           ) : (
             <OwlCarousel
               loop
