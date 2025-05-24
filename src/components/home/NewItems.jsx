@@ -1,35 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import OwlCarousel from "react-owl-carousel";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import Countdown from "../reusable/Countdown";
 import ItemsGridSkeletonLoader from '../reusable/ItemsGridSkeletonLoader';
+import useAxiosFetch from '../../hooks/useAxiosFetch';
 
 const NewItems = () => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: items, loading, error } = useAxiosFetch(
+    "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
+  );
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
-        );
-
-        setTimeout(() => {
-          setItems(response.data);
-          setLoading(false);
-        }, 2000);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchItems();
-  }, []);
+  if (error) {
+    console.error("Error fetching data in NewItems:", error);
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <section id="section-items" className="no-bottom">
@@ -82,13 +68,13 @@ const NewItems = () => {
                           <button>Buy Now</button>
                           <div className="nft__item_share">
                             <h4>Share</h4>
-                            <a href="#" target="_blank" rel="noreferrer"> 
+                            <a href="#" target="_blank" rel="noreferrer">
                               <i className="fa fa-facebook fa-lg"></i>
                             </a>
-                            <a href="#" target="_blank" rel="noreferrer"> 
+                            <a href="#" target="_blank" rel="noreferrer">
                               <i className="fa fa-twitter fa-lg"></i>
                             </a>
-                            <a href="#"> 
+                            <a href="#">
                               <i className="fa fa-envelope fa-lg"></i>
                             </a>
                           </div>

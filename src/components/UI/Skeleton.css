@@ -1,0 +1,17 @@
+.skeleton-box {
+  background-color: #e0e0e0;
+  animation: pulse 1.5s infinite ease-in-out;
+  display: block;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #f0f0f0;
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+}
