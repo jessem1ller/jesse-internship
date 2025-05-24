@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Countdown from "../reusable/Countdown";
-import ItemsGridSkeletonLoader from '../reusable/ItemsGridSkeletonLoader';
-import useAxiosFetch from '../../hooks/useAxiosFetch';
+import ItemsGridSkeletonLoader from "../reusable/ItemsGridSkeletonLoader";
+import useAxiosFetch from "../../hooks/useAxiosFetch";
 
 const ExploreItems = () => {
   const ITEMS_PER_LOAD = 4;
@@ -10,17 +10,20 @@ const ExploreItems = () => {
   const TOTAL_ITEMS_AVAILABLE = 16;
 
   const [filter, setFilter] = useState("");
-  const [visibleItemsCount, setVisibleItemsCount] = useState(INITIAL_ITEMS_DISPLAY);
+  const [visibleItemsCount, setVisibleItemsCount] = useState(
+    INITIAL_ITEMS_DISPLAY
+  );
 
   const apiUrl = useMemo(() => {
-    let base = "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore";
+    let base =
+      "https://us-central1-nft-cloud-functions.cloudfunctions.net/explore";
     if (filter) {
       return `${base}?filter=${filter}`;
     }
     return base;
   }, [filter]);
 
-  const { data: allItems, loading, error } = useAxiosFetch(apiUrl, []); 
+  const { data: allItems, loading, error } = useAxiosFetch(apiUrl, []);
 
   const itemsToDisplay = allItems.slice(0, visibleItemsCount);
 
@@ -33,21 +36,29 @@ const ExploreItems = () => {
   };
 
   const handleLoadMore = () => {
-    setVisibleItemsCount(prevCount => Math.min(prevCount + ITEMS_PER_LOAD, TOTAL_ITEMS_AVAILABLE));
+    setVisibleItemsCount((prevCount) =>
+      Math.min(prevCount + ITEMS_PER_LOAD, TOTAL_ITEMS_AVAILABLE)
+    );
   };
 
   if (error) {
     console.error("Error fetching explore items:", error);
-    return <div className="text-center mt-5">Error loading items. Please try again later.</div>;
+    return (
+      <div className="text-center mt-5">
+        Error loading items. Please try again later.
+      </div>
+    );
   }
-
-  console.log("ExploreItems - loading:", loading);
 
   return (
     <>
-      <div className="row">
-        <div className="col-lg-12">
-          <select id="filter-items" defaultValue={filter} onChange={handleFilterChange}>
+      <div>
+        <div>
+          <select
+            id="filter-items"
+            defaultValue={filter}
+            onChange={handleFilterChange}
+          >
             <option value="">Default</option>
             <option value="price_low_to_high">Price, Low to High</option>
             <option value="price_high_to_low">Price, High to Low</option>
@@ -55,19 +66,18 @@ const ExploreItems = () => {
           </select>
         </div>
       </div>
-
       <div className="row">
         {loading ? (
           <ItemsGridSkeletonLoader
             count={INITIAL_ITEMS_DISPLAY}
-            itemClassName="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
+            itemClassName="p-2 col-lg-3 col-md-6 col-sm-6 col-xs-12"
             skeletonHeight="350px"
           />
         ) : (
           itemsToDisplay.map((explore, index) => (
             <div
               key={explore.nftId || index}
-              className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
+              className="col-lg-3 col-md-6 col-sm-6 col-xs-12"
               style={{ display: "block", backgroundSize: "cover" }}
             >
               <div className="nft__item">
@@ -76,14 +86,16 @@ const ExploreItems = () => {
                     to={`/author/${explore.authorId}`}
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    title={`Creator: ${explore.authorName || 'Unknown'}`}
+                    title={`Creator: ${explore.authorName || "Unknown"}`}
                   >
                     <img className="lazy" src={explore.authorImage} alt="" />
                     <i className="fa fa-check"></i>
                   </Link>
                 </div>
                 <div className="de_countdown-wrapper">
-                  {explore.expiryDate && <Countdown expiryDate={explore.expiryDate} />}
+                  {explore.expiryDate && (
+                    <Countdown expiryDate={explore.expiryDate} />
+                  )}
                 </div>
                 <div className="nft__item_wrap">
                   <div className="nft__item_extra">
@@ -104,7 +116,11 @@ const ExploreItems = () => {
                     </div>
                   </div>
                   <Link to={`/item-details/${explore.nftId}`}>
-                    <img src={explore.nftImage} className="lazy nft__item_preview" alt="" />
+                    <img
+                      src={explore.nftImage}
+                      className="lazy nft__item_preview"
+                      alt=""
+                    />
                   </Link>
                 </div>
                 <div className="nft__item_info">
@@ -122,10 +138,14 @@ const ExploreItems = () => {
           ))
         )}
       </div>
-
       <div className="col-md-12 text-center">
         {!loading && itemsToDisplay.length < TOTAL_ITEMS_AVAILABLE && (
-          <Link to="#" id="loadmore" className="btn-main lead" onClick={handleLoadMore}>
+          <Link
+            to="#"
+            id="loadmore"
+            className="btn-main lead"
+            onClick={handleLoadMore}
+          >
             Load more
           </Link>
         )}
