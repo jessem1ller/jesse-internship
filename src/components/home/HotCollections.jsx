@@ -1,35 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import OwlCarousel from "react-owl-carousel";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-import Skeleton from "../UI/Skeleton";
+import useAxiosFetch from "../../hooks/useAxiosFetch";
+import ItemsGridSkeletonLoader from "../reusable/ItemsGridSkeletonLoader";
 
-//make this dynamic
 const HotCollections = () => {
-  const [collections, setCollections] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: collections,
+    loading,
+    error,
+  } = useAxiosFetch(
+    "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
+  );
 
-  useEffect(() => {
-    const fetchCollections = async () => {
-      try {
-        const response = await axios.get(
-          "https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections"
-        );
-
-        setTimeout(() => {
-          setCollections(response.data);
-          setLoading(false);
-        }, 2000);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchCollections();
-  }, []);
+  if (error) {
+    console.error("Error fetching hot collections:", error);
+    return <div>Error loading hot collections. Please try again later.</div>;
+  }
 
   return (
     <section id="section-collections" className="no-bottom">
@@ -42,11 +31,11 @@ const HotCollections = () => {
             </div>
           </div>
           {loading ? (
-            Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="col-lg-3 col-md-6 col-sm-12">
-                 <Skeleton width="100%" height="350px" borderRadius="8px" />
-              </div>
-            ))
+            <ItemsGridSkeletonLoader
+              count={4}
+              itemClassName="col-lg-3 col-md-6 col-sm-12"
+              skeletonHeight="350px"
+            />
           ) : (
             <OwlCarousel
               loop
