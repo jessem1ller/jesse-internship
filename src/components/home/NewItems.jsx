@@ -4,58 +4,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-import Skeleton from "../UI/Skeleton";
-
-//make this into a component
-const Countdown = ({ expiryDate }) => {
-  const [timeLeft, setTimeLeft] = useState(0);
-
-  useEffect(() => {
-    if (!expiryDate) {
-      setTimeLeft(0);
-      return;
-    }
-
-    const calculateTimeLeft = () => {
-      const now = Date.now();
-      const difference = expiryDate - now;
-
-      if (difference <= 0) {
-        return 0;
-      }
-      return difference;
-    };
-
-    setTimeLeft(calculateTimeLeft());
-
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [expiryDate]);
-
-  const getFormattedTime = () => {
-    if (timeLeft <= 0) {
-      return "Time's up!";
-    }
-
-    const totalSeconds = Math.floor(timeLeft / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    return `${hours.toString().padStart(2, "0")}h ${minutes
-      .toString()
-      .padStart(2, "0")}m ${seconds.toString().padStart(2, "0")}s`;
-  };
-
-  return (
-    <div className="de_countdown">
-      {getFormattedTime()}
-    </div>
-  );
-};
+import Countdown from "../reusable/Countdown";
+import ItemsGridSkeletonLoader from '../reusable/ItemsGridSkeletonLoader';
 
 const NewItems = () => {
   const [items, setItems] = useState([]);
@@ -92,11 +42,11 @@ const NewItems = () => {
             </div>
           </div>
           {loading ? (
-            Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="col-lg-3 col-md-6 col-sm-12">
-                 <Skeleton width="100%" height="350px" borderRadius="8px" />
-              </div>
-            ))
+            <ItemsGridSkeletonLoader
+              count={4}
+              itemClassName="col-lg-3 col-md-6 col-sm-12"
+              skeletonHeight="350px"
+            />
           ) : (
             <OwlCarousel
               loop
@@ -132,13 +82,13 @@ const NewItems = () => {
                           <button>Buy Now</button>
                           <div className="nft__item_share">
                             <h4>Share</h4>
-                            <a href="" target="_blank" rel="noreferrer">
+                            <a href="#" target="_blank" rel="noreferrer"> 
                               <i className="fa fa-facebook fa-lg"></i>
                             </a>
-                            <a href="" target="_blank" rel="noreferrer">
+                            <a href="#" target="_blank" rel="noreferrer"> 
                               <i className="fa fa-twitter fa-lg"></i>
                             </a>
-                            <a href="">
+                            <a href="#"> 
                               <i className="fa fa-envelope fa-lg"></i>
                             </a>
                           </div>
