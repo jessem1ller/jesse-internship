@@ -2,6 +2,7 @@ import React from "react";
 import NFT from "../../images/nft.png";
 import backgroundImage from "../../images/bg-shape-1.jpg";
 import { Link } from "react-router-dom";
+import Aos from "aos";
 
 const Landing = () => {
   return (
@@ -13,7 +14,7 @@ const Landing = () => {
       style={{ background: `url(${backgroundImage}) bottom / cover` }}
     >
       <div className="v-center">
-        <div className="container">
+        <div className="container" data-aos="fade-up" data-aos-delay="400">
           <div className="row align-items-center">
             <div className="col-md-6">
               <div className="spacer-single"></div>
@@ -22,7 +23,7 @@ const Landing = () => {
                   Ultraverse Market
                 </span>
               </h6>
-              <div className="spacer-10"></div>
+              <div data-aos="fade-up" className="spacer-10"></div>
               <h1>Create, sell or collect digital items.</h1>
               <p className="lead">
                 Unit of data stored on a digital ledger, called a blockchain,
