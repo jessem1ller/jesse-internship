@@ -33,7 +33,7 @@ const Author = () => {
 
   if (loading) {
     return (
-      <div id="wrapper">
+      <div id="wrapper" data-aos="fade-up" data-aos-delay="400">
         <div className="no-bottom no-top" id="content">
           <div id="top"></div>
           <section id="profile_banner" aria-label="section" className="text-light"

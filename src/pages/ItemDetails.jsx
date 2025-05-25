@@ -7,7 +7,6 @@ import ItemsGridSkeletonLoader from '../components/reusable/ItemsGridSkeletonLoa
 const ItemDetails = () => {
   const { nftId } = useParams();
   const API_BASE_URL = "https://us-central1-nft-cloud-functions.cloudfunctions.net";
-
   const { data: item, loading, error } = useAxiosFetch(`${API_BASE_URL}/itemDetails?nftId=${nftId}`);
 
   useEffect(() => {
@@ -111,7 +110,7 @@ const ItemDetails = () => {
   }
 
   return (
-    <div id="wrapper">
+    <div id="wrapper" data-aos="ease-in">
       <div className="no-bottom no-top" id="content">
         <div id="top"></div>
         <section aria-label="section" className="mt90 sm-mt-0">
